@@ -15,6 +15,7 @@ from starlette.responses import PlainTextResponse
 from starlette.routing import Mount, Route
 from twilio.rest import Client
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 
 TWILIO_ACCOUNT_SID = os.environ["TWILIO_ACCOUNT_SID"]
 TWILIO_AUTH_TOKEN = os.environ["TWILIO_AUTH_TOKEN"]
@@ -76,7 +77,13 @@ def _drain_messages() -> list[dict]:
 
 _get_conn().close()
 
-mcp = FastMCP("whatsapp-bridge", stateless_http=True)
+mcp = FastMCP(
+    "whatsapp-bridge",
+    stateless_http=True,
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=False,
+    ),
+)
 mcp.settings.streamable_http_path = "/"
 
 
