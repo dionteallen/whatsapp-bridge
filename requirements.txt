@@ -1,0 +1,4 @@
+starlette>=0.37
+uvicorn>=0.30
+twilio>=9.0
+mcp[cli]>=1.2
